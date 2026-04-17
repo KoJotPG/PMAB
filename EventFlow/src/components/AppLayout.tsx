@@ -5,7 +5,7 @@ import { colors } from '../theme/colors';
 
 type AppLayoutProps = {
   content: ReactNode;
-  bottomNavigation: ReactNode;
+  bottomNavigation?: ReactNode;
 };
 
 export function AppLayout({ content, bottomNavigation }: AppLayoutProps) {

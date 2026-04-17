@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors } from '../theme/colors';
 
 export type ScreenCard = {
+  key?: string;
   title: string;
   value: string;
+  onPress?: () => void;
 };
 
 type ScreenCardsProps = {
@@ -13,12 +15,28 @@ type ScreenCardsProps = {
 export function ScreenCards({ cards }: ScreenCardsProps) {
   return (
     <View style={styles.content}>
-      {cards.map(card => (
-        <View key={card.title} style={styles.card}>
-          <Text style={styles.cardTitle}>{card.title}</Text>
-          <Text style={styles.cardValue}>{card.value}</Text>
-        </View>
-      ))}
+      {cards.map(card => {
+        const elementKey = card.key ?? card.title;
+
+        if (card.onPress) {
+          return (
+            <Pressable
+              key={elementKey}
+              onPress={card.onPress}
+              style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}>
+              <Text style={styles.cardTitle}>{card.title}</Text>
+              <Text style={styles.cardValue}>{card.value}</Text>
+            </Pressable>
+          );
+        }
+
+        return (
+          <View key={elementKey} style={styles.card}>
+            <Text style={styles.cardTitle}>{card.title}</Text>
+            <Text style={styles.cardValue}>{card.value}</Text>
+          </View>
+        );
+      })}
     </View>
   );
 }
@@ -34,6 +52,10 @@ const styles = StyleSheet.create({
     padding: 20,
     borderWidth: 1,
     borderColor: colors.surfaceAlt,
+  },
+  cardPressed: {
+    opacity: 0.85,
+    transform: [{ scale: 0.99 }],
   },
   cardTitle: {
     color: colors.textSecondary,

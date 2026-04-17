@@ -1,1 +1,1 @@
-export type ScreenKey = 'home' | 'schedule';
+export type ScreenKey = 'home' | 'schedule' | 'upcomingEvents';
